@@ -16,6 +16,7 @@ setup(
     package_dir={'funcgen': 'funcgen'},
     include_package_data=True,
     python_requires='>=3.6',
+    extras_require={'docs': 'sphinx==2.2.0'},
     license=about['__license__'],
     project_urls={
         'Documentation': '',

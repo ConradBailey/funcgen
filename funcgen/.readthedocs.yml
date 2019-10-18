@@ -1,0 +1,10 @@
+version: 2
+formats: [htmlzip]
+
+python:
+	version: 3.6.8
+	install:
+		- method: pip
+		- path: .
+			extra_requirements:
+				- docs
