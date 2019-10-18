@@ -1,0 +1,3 @@
+[run]
+branch = true
+omit = funcgen/__version__.py
