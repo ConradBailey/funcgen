@@ -10,6 +10,7 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
+import doctest
 import os
 import sys
 sys.path.insert(0, os.path.abspath('..'))
@@ -34,6 +35,7 @@ release = '0.0.0'
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.autosummary',
+    'sphinx.ext.doctest',
     'sphinx.ext.viewcode',
 ]
 
@@ -64,3 +66,5 @@ html_static_path = ['_static']
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3/", None),
 }
+
+doctest_default_flags = doctest.DONT_ACCEPT_TRUE_FOR_1 | doctest.NORMALIZE_WHITESPACE

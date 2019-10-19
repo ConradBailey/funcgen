@@ -34,43 +34,42 @@ def valid_parameters(param_kind: _ParameterKind,
     Use ``Parameter.empty`` to specify the abscence of type annotation
     or default value.
 
-    Usage::
+    .. testsetup::
 
-      valid_parameters(Parameter.POSITIONAL_OR_KEYWORD,
-                       [(['arg1'],
-                         [42, Parameter.empty],
-                         [int, Parameter.empty])])
-      yields
-      [],
-      [<Parameter "arg1:int=42">],
-      [<Parameter "arg1=42">],
-      [<Parameter "arg1:int">],
-      [<Parameter "arg1">]
+       from funcgen import valid_parameters
+       from inspect import Parameter, Signature
+
+    >>> [str(x) for x in valid_parameters(Parameter.POSITIONAL_OR_KEYWORD,
+    ...                                   [(['arg1'],
+    ...                                     [42, Parameter.empty],
+    ...                                     [int, Parameter.empty])])]
+    ['[]',
+     '[<Parameter "arg1:int=42">]',
+     '[<Parameter "arg1=42">]',
+     '[<Parameter "arg1:int">]',
+     '[<Parameter "arg1">]']
+
+    >>> [str(x) for x in valid_parameters(Parameter.POSITIONAL_OR_KEYWORD,
+    ...                                   [(['arg1'], [42, Parameter.empty], [int]),
+    ...                                    (['arg2'], [107.7, Parameter.empty], [float])])]
+    ['[]',
+     '[<Parameter "arg1:int=42">]',
+     '[<Parameter "arg1:int">]',
+     '[<Parameter "arg1:int=42">, <Parameter "arg2:float=107.7">]',
+     '[<Parameter "arg1:int">, <Parameter "arg2:float=107.7">]',
+     '[<Parameter "arg1:int">, <Parameter "arg2:float">]']
 
 
-      valid_parameters(Parameter.POSITIONAL_OR_KEYWORD,
-                       [(['arg1'], [42, Parameter.empty], [int]),
-                        (['arg2'], [107.7, Parameter.empty], [float])])
-      yields
-      [],
-      [<Parameter "arg1:int=42">],
-      [<Parameter "arg1:int">],
-      [<Parameter "arg1:int=42">, <Parameter "arg2:float=107.7">],
-      [<Parameter "arg1:int">, <Parameter "arg2:float=107.7">],
-      [<Parameter "arg1:int">, <Parameter "arg2:float">]]
-
-
-      valid_parameters(Parameter.KEYWORD_ONLY,
-                       [(['arg1'], [42, Parameter.empty], [int]),
-                        (['arg2'], [107.7, Parameter.empty], [float])])
-      yields
-      [],
-      [<Parameter "arg1:int=42">],
-      [<Parameter "arg1:int">],
-      [<Parameter "arg1:int=42">, <Parameter "arg2:float=107.7">],
-      [<Parameter "arg1:int">, <Parameter "arg2:float=107.7">],
-      [<Parameter "arg1:int=42">, <Parameter "arg2:float">],
-      [<Parameter "arg1:int">, <Parameter "arg2:float">]
+    >>> [str(x) for x in valid_parameters(Parameter.KEYWORD_ONLY,
+    ...                                   [(['arg1'], [42, Parameter.empty], [int]),
+    ...                                    (['arg2'], [107.7, Parameter.empty], [float])])]
+    ['[]',
+     '[<Parameter "arg1:int=42">]',
+     '[<Parameter "arg1:int">]',
+     '[<Parameter "arg1:int=42">, <Parameter "arg2:float=107.7">]',
+     '[<Parameter "arg1:int">, <Parameter "arg2:float=107.7">]',
+     '[<Parameter "arg1:int=42">, <Parameter "arg2:float">]',
+     '[<Parameter "arg1:int">, <Parameter "arg2:float">]']
 
     :param param_kind: must be ``Parameter.POSITIONAL_ONLY``, ``Parameter.KEYWORD_ONLY``, or ``Parameter.POSITIONAL_OR_KEYWORD``.
     :param Sequence[ParamTuple] params:
@@ -134,28 +133,29 @@ def valid_signatures(args: Sequence[ParamTuple] = [], kwargs: Sequence[ParamTupl
     default value, and ``Signature.empty`` to specify a missing return
     type annotation.
 
-    Usage::
+    .. testsetup::
 
-      args = [(['arg1'], [Parameter.empty, 42], [int])]
-      kwargs = []
-      var_args = (['args'], [float])
-      var_kwargs = []
-      return_annotations = [Signature.empty, int]
-      valid_signatures(args, kwargs, var_args, var_kwargs, return_annotations)
+       from funcgen import valid_signatures
+       from inspect import Parameter, Signature
 
-      yields
-      <Signature ()>,
-      <Signature () -> int>,
-      <Signature (*args:float)>,
-      <Signature (*args:float) -> int>,
-      <Signature (arg1:int)>,
-      <Signature (arg1:int) -> int>,
-      <Signature (arg1:int, *args:float)>,
-      <Signature (arg1:int, *args:float) -> int>,
-      <Signature (arg1:int=42)>,
-      <Signature (arg1:int=42) -> int>,
-      <Signature (arg1:int=42, *args:float)>,
-      <Signature (arg1:int=42, *args:float) -> int>
+    >>> args = [(['arg1'], [Parameter.empty, 42], [int])]
+    >>> kwargs = []
+    >>> var_args = (['args'], [float])
+    >>> var_kwargs = ([], [])
+    >>> return_annotations = [Signature.empty, int]
+    >>> [str(s) for s in valid_signatures(args, kwargs, var_args, var_kwargs, return_annotations)]
+    ['()',
+     '() -> int',
+     '(*args:float)',
+     '(*args:float) -> int',
+     '(arg1:int)',
+     '(arg1:int) -> int',
+     '(arg1:int, *args:float)',
+     '(arg1:int, *args:float) -> int',
+     '(arg1:int=42)',
+     '(arg1:int=42) -> int',
+     '(arg1:int=42, *args:float)',
+     '(arg1:int=42, *args:float) -> int']
 
     :param Sequence[ParamTuple] args: A sequence of ``ParamTuples`` used to create ``Parameter.POSITIONAL_OR_KEYWORD`` ``Parameters`` (see ``valid_parameters``)
     :param Sequence[ParamTuple] kwargs: A sequence of ``ParamTuples`` used to create ``Parameter.KEYWORD_ONLY`` ``Parameters`` (see ``valid_parameters``)
