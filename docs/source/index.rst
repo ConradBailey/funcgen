@@ -1,14 +1,10 @@
-Funcgen
-=======
+.. Setup environment for doctests found in README
+.. testsetup::
 
-.. automodule:: funcgen
+   def log(*args, **kwargs):
+       pass
 
-Installation
-------------
-``funcgen`` requires ``Python >= 3.6`` because it relies on modern type annotations.
-::
-
-	 pip install funcgen
+.. include:: ../../README.rst
 
 API
 ---

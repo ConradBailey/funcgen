@@ -1,7 +1,4 @@
-"""This is a small module for generating sets of function signatures
-and corresponding function objects. This is useful in unit testing.
-
-"""
+# pylint: disable=missing-module-docstring
 
 from .main import (valid_signatures,
                    all_valid_signatures,
